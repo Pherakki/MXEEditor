@@ -1,0 +1,10 @@
+{
+    "SubEntities": 
+    [
+    	"EnSimpleWall"
+    ],
+    "Parameters":
+    [
+        ["_param", "EnSimpleWallParam"]
+    ]
+}

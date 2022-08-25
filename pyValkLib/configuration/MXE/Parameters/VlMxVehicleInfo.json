@@ -1,0 +1,62 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00"   : ">uint32",
+            "unknown_0x04"   : ">utf8_string",
+            "unknown_0x08"   : ">utf8_string",
+            "unknown_0x0C"   : ">utf8_string",
+            "unknown_0x10"   : ">utf8_string",
+            "unknown_0x14"   : ">utf8_string",
+            "unknown_0x18"   : ">utf8_string",
+            "unknown_0x1C"   : ">int32",
+            "unknown_0x20"   : ">int32",
+            "unknown_0x24"   : ">int32",
+            "unknown_0x28"   : ">utf8_string",
+            "padding_0x2C"   : ">int32",
+            "unknown_0x30"   : ">float32",
+            "unknown_0x34"   : ">float32",
+            "unknown_0x38"   : ">float32",
+            "unknown_0x3C"   : ">float32",
+            "unknown_0x40"   : ">float32",
+            "unknown_0x44"   : ">int32",
+            "unknown_0x48"   : ">int32",
+            "unknown_0x4C"   : ">int32",
+            "unknown_0x50"   : ">float32",
+            "unknown_0x54"   : ">float32",
+            "unknown_0x58"   : ">float32",
+            "unknown_0x5C"   : ">float32",
+            "unknown_0x60"   : ">float32",
+            "unknown_0x64"   : ">float32",
+            "unknown_0x68"   : ">float32",
+            "unknown_0x6C"   : ">int32",
+            "unknown_asset_1": ">asset",
+            "unknown_asset_2": ">asset",
+            "unknown_0x80"   : ">float32",
+            "unknown_0x84"   : ">float32",
+            "unknown_0x88"   : ">float32",
+            "unknown_0x8C"   : ">float32",
+            "unknown_0x90"   : ">float32",
+            "unknown_0x94"   : ">float32",
+            "unknown_0x98"   : ">int32",
+            "unknown_0x9C"   : ">int32",
+            "unknown_0xA0"   : ">int32",
+            "unknown_0xA4"   : ">int32",
+            "unknown_0xA8"   : ">int32",
+            "unknown_0xAC"   : "<int32",
+            "unknown_0xB0"   : "<int32",
+            "unknown_0xB4"   : "<int32",
+            "unknown_0xB8"   : ">int32",
+            "unknown_0xBC"   : ">int32",
+            "unknown_0xC0"   : ">int32",
+            "unknown_0xC4"   : ">int32",
+            "unknown_0xC8"   : ">int32",
+            "unknown_0xCC"   : "<int32"
+        }
+    ],
+    "assets":
+    {
+        "unknown_asset_1": "???",
+        "unknown_asset_2": "???"
+    }
+}

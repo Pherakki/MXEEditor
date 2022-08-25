@@ -1,0 +1,10 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">int16",
+            "unknown_0x02": ">int16",
+            "unknown_0x04": ">int16"
+        }
+    ]
+}

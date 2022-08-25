@@ -1,0 +1,34 @@
+{
+    "struct":
+    [
+        {
+            "cvd_asset"   : ">asset",
+            "padding_0x08": ">pad32",
+            "padding_0x0C": ">pad32",
+            "unknown_0x10": ">float32",
+            "unknown_0x14": ">float32",
+            "unknown_0x18": ">float32",
+            "unknown_0x1C": ">float32",
+            "unknown_0x20": ">float32",
+            "unknown_0x24": ">float32",
+            "unknown_0x28": ">float32",
+            "unknown_0x2C": ">float32",
+            "unknown_0x30": ">float32",
+            "unknown_0x34": ">float32",
+            "unknown_0x38": ">float32",
+            "unknown_0x3C": ">float32",
+            "unknown_0x40": ">float32",
+            "unknown_0x44": ">float32",
+            "unknown_0x48": ">float32",
+            "unknown_0x4C": ">float32",
+            "unknown_0x50": ">int32",
+            "unknown_0x54": ">int32",
+            "padding_0x58": ">pad32",
+            "padding_0x5C": ">pad32"
+        }
+    ],
+    "assets":
+    {
+        "cvd_asset": "cvd"
+    }
+}

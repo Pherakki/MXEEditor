@@ -1,0 +1,15 @@
+{
+    "struct":
+    [
+        {
+            "pvs_asset"   : ">asset",
+            "padding_0x08": ">pad64",
+            "padding_0x10": ">pad64",
+            "padding_0x18": ">pad64"
+        }
+    ],
+    "assets":
+    {
+        "pvs_asset": "pvs"
+    }
+}

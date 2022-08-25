@@ -1,0 +1,18 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">int32",
+            "unknown_0x04": ">pad32",
+            "abd_asset"   : ">asset",
+            "abr_asset"   : ">asset",
+            "unknown_0x18": ">int32",
+            "unknown_0x1C": ">pad32"
+        }
+    ],
+    "assets":
+    {
+        "abd_asset": "abd",
+        "abr_asset": "abr"
+    }
+}

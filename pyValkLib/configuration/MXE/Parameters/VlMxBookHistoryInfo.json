@@ -1,0 +1,29 @@
+{
+    "struct":
+    [
+        {
+            "id"          : ">uint32",
+            "unknown_0x04": ">utf8_string",
+            "unknown_0x08": ">utf8_string",
+            "unknown_0x0C": ">utf8_string",
+            "unknown_0x10": ">utf8_string",
+            "unknown_0x14": ">utf8_string",
+            "unknown_0x18": ">utf8_string",
+            "unknown_0x1C": ">utf8_string",
+            "unknown_0x20": ">utf8_string",
+            "unknown_0x24": ">utf8_string",
+            "unknown_0x28": ">utf8_string",
+            "unknown_0x2C": ">utf8_string",
+            "unknown_0x30": ">utf8_string",
+            "unknown_0x34": ">utf8_string",
+            "unknown_0x38": ">utf8_string",
+            "unknown_0x3C": ">utf8_string",
+            "unknown_0x40": ">utf8_string",
+            "unknown_0x44": ">utf8_string",
+            "unknown_0x48": ">utf8_string",
+            "unknown_0x4C": ">utf8_string",
+            "unknown_0x50": ">utf8_string",
+            "unknown_0x54": ">utf8_string"
+        }
+    ]
+}

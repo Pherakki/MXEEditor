@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "EnHeightField"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "EnWaterSurfaceParam"]
+    ]
+}

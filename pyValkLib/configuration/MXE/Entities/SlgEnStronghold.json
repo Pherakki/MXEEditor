@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "SlgBreakableStructure"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnStrongholdParam"]
+    ]
+}

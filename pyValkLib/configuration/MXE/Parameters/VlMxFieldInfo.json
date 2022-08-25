@@ -1,0 +1,32 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00"   : ">utf8_string",
+            "unknown_0x04"   : ">utf8_string",
+            "model_asset"    : ">asset",
+            "texture_asset_1": ">asset",
+            "unknown_0x18"   : ">int32",
+            "unknown_0x1C"   : ">utf8_string",
+            "unknown_0x20"   : ">int32",
+            "unknown_0x24"   : ">int32",
+            "unknown_0x28"   : ">int32",
+            "unknown_0x2C"   : ">int32",
+            "unknown_0x30"   : ">int32",
+            "unknown_0x34"   : ">int32",
+            "unknown_0x38"   : ">int32",
+            "unknown_0x3C"   : ">pad32",
+            "texture_asset_2": ">asset",
+            "unknown_0x48"   : ">float32",
+            "unknown_0x4C"   : ">float32",
+            "unknown_0x50"   : ">float32",
+            "unknown_0x54"   : ">int32"
+        }
+    ],
+    "assets":
+    {
+        "model_asset"    : "hmd",
+        "texture_asset_1": "htx",
+        "texture_asset_2": "htx"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "SlgEnTriggerBase"
+    ],
+    "Parameters":
+    [
+        ["m_pMxParam", "SlgEnTriggerHerbParam"]
+    ]
+}

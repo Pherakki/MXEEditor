@@ -1,0 +1,11 @@
+{
+    "struct":
+    [
+        {"id"          : ">uint32"},
+        {"unknown_0x04": ">utf8_string"},
+        {"unknown_0x08": ">utf8_string"},
+        {"unknown_0x0C": ">utf8_string"},
+        {"unknown_0x10": ">utf8_string"},
+        {"unknown_0x14": ">utf8_string"}
+    ]
+}

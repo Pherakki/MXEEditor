@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "SlgEnTriggerEnter"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnGlowFlyParam"]
+    ]
+}

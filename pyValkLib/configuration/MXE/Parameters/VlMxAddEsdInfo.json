@@ -1,0 +1,9 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">int32",
+            "unknown_0x04": ">uint32"
+        }
+    ]
+}

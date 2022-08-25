@@ -1,0 +1,8 @@
+{    "struct":
+    [
+        {
+            "unknown_0x00": ">float32",
+            "unknown_0x04": ">float32"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": "<uint32",
+            "unknown_0x04": ">uint32",
+            "unknown_0x08": ">int32",
+            "unknown_0x0C": ">int32",
+            "unknown_0x10": ">int32",
+            "unknown_0x14": ">int16",
+            "unknown_0x16": ">int16",
+            "unknown_0x18": ">int16",
+            "unknown_0x1A": ">int16"
+        }
+    ]
+}

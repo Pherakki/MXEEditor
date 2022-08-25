@@ -1,0 +1,11 @@
+{
+    "SubEntities":
+    [
+        "AISlgUnitMxParamSolver"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnUnitPlacementPointParam"],
+        ["m_pChildAiParam", "AISlgUnitMxParam"]
+    ]
+}

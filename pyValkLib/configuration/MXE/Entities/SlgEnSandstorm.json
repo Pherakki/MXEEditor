@@ -1,0 +1,11 @@
+{
+    "SubEntities":
+    [
+        "VlMapObjectOne",
+        "SlgMapObject"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnSandstormParam"]
+    ]
+}

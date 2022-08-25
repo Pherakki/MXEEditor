@@ -1,0 +1,20 @@
+{
+    "struct":
+    [
+        {
+            "light_count" : ">uint32",
+            "lights_ptr"  : ">pointer32",
+            "padding_0x08": ">pad32",
+            "padding_0x0C": ">pad32"
+        }
+    ],
+    "subparams":
+    {
+        "lights":
+        {
+            "count": "light_count",
+            "pointer": "lights_ptr",
+            "type": "MxParameterLight"
+        }
+    }
+}

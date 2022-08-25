@@ -1,0 +1,10 @@
+{
+    "struct":
+    [
+        {
+            "Unit 1": ">uint32",
+            "Unit 2": ">uint32",
+            "Percentage": ">uint32"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "SubEntities":
+    [
+        "VlMapObjectOne",
+        "SlgMapObject"
+    ],
+    "Parameters":
+    [
+        ["_pParam", "SlgEnAreaSurveillanceParam"]
+    ]
+}

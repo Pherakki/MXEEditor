@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "SlgEnBreakableStructure"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnCatwalkHoleParam"]
+    ]
+}

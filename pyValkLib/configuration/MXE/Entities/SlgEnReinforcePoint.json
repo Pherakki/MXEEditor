@@ -1,0 +1,13 @@
+{
+    "SubEntities":
+    [
+        "AISlgUnitMxParamSolver",
+        "VlMapObjectOne",
+        "SlgMapObject"
+    ],
+    "Parameters":
+    [
+        ["m_pParam", "SlgEnReinforcePointParam"],
+        ["m_pChildAiParam", "AISlgUnitMxParam"]
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">utf8_string",
+            "unknown_0x04": ">utf8_string",
+            "unknown_0x08": ">utf8_string",
+            "unknown_0x0C": ">int32",
+            "unknown_0x10": ">int32",
+            "unknown_0x14": ">int32",
+            "unknown_0x18": ">int16",
+            "unknown_0x1A": ">pad16",
+            "unknown_0x1C": ">int32",
+            "unknown_0x20": ">int32",
+            "unknown_0x24": ">int32",
+            "unknown_0x28": ">int32",
+            "padding_0x2C": ">int16",
+            "padding_0x2E": ">int16",
+            "unknown_0x30": ">int32",
+            "unknown_0x34": "<int32",
+            "unknown_0x38": ">int32",
+            "unknown_0x3C": ">int32",
+            "unknown_0x40": ">int32",
+            "unknown_0x44": ">int32",
+            "unknown_0x48": ">int32",
+            "unknown_0x4C": "<int32",
+            "unknown_0x50": "<int32",
+            "unknown_0x54": "<int16",
+            "unknown_0x56": ">int16",
+            "unknown_0x58": ">int16",
+            "unknown_0x5A": ">pad16",
+            "unknown_0x5C": ">float32",
+            "unknown_0x60": ">int32",
+            "unknown_0x64": ">float32",
+            "unknown_0x68": ">float32",
+            "unknown_0x6C": ">float32",
+            "unknown_0x70": ">float32",
+            "unknown_0x74": "<int32"
+        }
+    ]
+}

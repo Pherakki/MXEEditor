@@ -1,0 +1,36 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00"   : ">int32",
+            "unknown_0x04"   : ">int32",
+            "unknown_0x08"   : ">int32",
+            "unknown_0x0C"   : ">int32",
+            "mcl_asset"      : ">asset",
+            "unknown_asset_1": ">asset",
+            "unknown_asset_2": ">asset",
+            "mlx_asset_1"    : ">asset",
+            "mlx_asset_2"    : ">asset",
+            "mlx_asset_3"    : ">asset",
+            "bhv_asset"      : ">asset",
+            "mlx_asset_4"    : ">asset",
+            "unknown_asset_3": ">asset",
+            "mlx_asset_5"    : ">asset",
+            "mlx_asset_6"    : ">asset"
+        }
+    ],
+    "assets":
+    {
+        "mcl_asset"      : "mcl",
+        "unknown_asset_1": "???",
+        "unknown_asset_2": "???",
+        "mlx_asset_1"    : "mlx",
+        "mlx_asset_2"    : "mlx",
+        "mlx_asset_3"    : "mlx",
+        "bhv_asset"      : "bhv",
+        "mlx_asset_4"    : "mlx",
+        "unknown_asset_3": "???",
+        "mlx_asset_5"    : "mlx",
+        "mlx_asset_6"    : "mlx"
+    }
+}

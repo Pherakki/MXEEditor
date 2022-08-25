@@ -1,0 +1,10 @@
+{
+    "SubEntities": 
+    [
+        "EnHeightMap"
+    ],
+    "Parameters":
+    [
+        ["_param", "EnHeightMapParam"]
+    ]
+}

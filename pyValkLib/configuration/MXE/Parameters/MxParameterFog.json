@@ -1,0 +1,12 @@
+{
+    "struct":
+    [
+        {
+            "color": ">color128",
+            "unknown_0x10": ">float32",
+            "unknown_0x14": ">float32",
+            "unknown_0x18": ">float32",
+            "unknown_0x1C": ">float32"
+        }
+    ]
+}

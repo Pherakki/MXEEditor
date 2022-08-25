@@ -1,0 +1,14 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">uint32",
+            "unknown_0x04": ">uint32",
+            "mlx_asset"   : ">asset"
+        }
+    ],
+    "assets":
+    {
+        "mlx_asset": "mlx"
+    }
+}

@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\title{pyValkLib Pre-Release Documentation}
+\author{Pherakki}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Data Container Format Specifications}
+\subsection{MXEC}
+\subsubsection{Subcontainers}
+The MXEC container contains no Data Containers.\\
+It contains the following Metadata Containers:
+\begin{itemize}
+\item POF0
+\item ENRS
+\item CCRS
+\item EOFC
+\end{itemize}
+\subsubsection{Data Structure}
+MXEC contains four ``tables" of data:
+\begin{itemize}
+\item Parameters Table
+\item Entities Table
+\item Path Graphs Table
+\item Assets Table
+\end{itemize}
+The parameter table contains game data in the form of different ``structures". I will term these ``structures" \textbf{ParameterSets}. Each type of \textbf{ParameterSet} consistently contains the same series of datatypes; they likely directly correspond to C structs. Many \textbf{ParameterSets} are linked to \textbf{Entities} and \textbf{PathGraphs}. \textbf{Assets} are linked to \textbf{ParameterSets}.\\
+
+The entities table contains \textbf{Entities}. Each \textbf{Entity} can contain child \textbf{Entities} and attached \textbf{ParameterSets}. The child \textbf{Entities} are always the same for a given \textbf{Entity}. Those child \textbf{Entities} can have their own child \textbf{Entities}; the definition of an \textbf{Entity} is therefore a multi-layered structure.\\
+Each \textbf{Entity} type links to a number of pre-defined \textbf{ParameterSet} types. Each instance of an \textbf{Entity} contains the IDs of these \textbf{ParameterSets}.\\
+
+The path graphs table contains \textbf{PathGraphs}. A \textbf{PathGraph} is a set of \textbf{Nodes} and \textbf{Edges}. Each \textbf{Node} has an associated \textbf{ParameterSet}. Each \textbf{Edge} can have multiple \textbf{ParameterSets} attached; in practice the VC1 \textbf{Edges} only link to a single \textbf{void}-type \textbf{ParameterSet}. The \textbf{Edges} connect together different pairs of \textbf{Nodes} in order to create a \textbf{Graph}. These \textbf{Graphs} are general mathematical structures; they are allowed to be cyclic (indeed, many are circular loops), paths with a definite start and end, or anything in-between. This is likely how \textit{e.g.} searchlight movement is implemented.\\
+
+The assets table contains \textbf{Assets}. A \textbf{ParameterSet} may contain a reference to an \textbf{Asset}; if it does, that reference is stored in the \textbf{Assets} table. Each \textbf{Asset} contains a path to a certain file, and two unknown IDs. The type of the file is also stored; in the future this will be auto-calculated from the file extension once MergeTexture-type HTX files are marked on the \textbf{ParameterSets}. For now, below is a lookup table for the different filetypes:
+\begin{itemize}
+\item HMD: 1
+\item HTX: 2
+\item HMT: 3
+\item MCL: 6
+\item MLX: 8
+\item ABR: 9
+\item ABD: 10
+\item CVD: 12
+\item HST: 12
+\item BHV: 12
+\item PVS: 20
+\item HTX: 21 (MergeTexture)
+\item HTR: 22
+\item MMF: 24
+\item MMR: 25
+\end{itemize}
+
+\newpage
+\section{Metadata Container Format Specifications}
+
+\newpage
+\section{Public Interface Object API}
+\end{document}

@@ -1,0 +1,20 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">uint32",
+            "unknown_0x04": ">float32",
+            "unknown_0x08": ">float32",
+            "unknown_0x0C": ">float32",
+            "unknown_0x10": ">float32",
+            "padding_0x14": ">pad32",
+            "abd_asset"   : ">asset",
+            "abr_asset"   : ">asset"
+        }
+    ],
+    "assets":
+    {
+        "abd_asset": "abd",
+        "abr_asset": "abr"
+    }
+}

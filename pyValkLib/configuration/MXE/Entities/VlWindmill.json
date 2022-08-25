@@ -1,0 +1,10 @@
+{
+    "SubEntities":
+    [
+        "VlMapObjectOne"
+    ],
+    "Parameters":
+    [
+        ["param", "EnWindmillParam"]
+    ]
+}

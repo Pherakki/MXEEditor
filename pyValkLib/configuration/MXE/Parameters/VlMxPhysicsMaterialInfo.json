@@ -1,0 +1,15 @@
+{
+    "struct":
+    [
+        {
+            "unknown_0x00": ">int32",
+            "unknown_0x04": ">float32",
+            "unknown_0x08": ">float32",
+            "unknown_0x0C": ">float32",
+            "unknown_0x10": ">float32",
+            "unknown_0x14": ">float32",
+            "unknown_0x18": ">int32",
+            "unknown_0x1C": ">int32"
+        }
+    ]
+}

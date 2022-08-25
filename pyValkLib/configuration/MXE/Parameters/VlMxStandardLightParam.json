@@ -1,0 +1,25 @@
+{
+    "struct":
+    [
+        {
+            "color_1"     : ">color128",
+            "color_2"     : ">color128",
+            "unknown_0x20": ">float32",
+            "unknown_0x24": ">float32",
+            "unknown_0x28": ">float32",
+            "padding_0x2C": ">pad32",
+            "color_3"     : ">color128",
+            "color_4"     : ">color128",
+            "unknown_0x50": ">uint32",
+            "unknown_0x54": ">float32",
+            "unknown_0x58": ">float32",
+            "unknown_0x5C": ">float32",
+            "color_5"     : ">color128",
+            "color_6"     : ">color128",
+            "unknown_0x80": ">uint32",
+            "unknown_0x84": ">float32",
+            "unknown_0x88": ">float32",
+            "unknown_0x8C": ">float32"
+        }
+    ]
+}
