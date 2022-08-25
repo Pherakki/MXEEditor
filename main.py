@@ -48,27 +48,27 @@ def main(argv):
         elif opt in ("-u", "--unpack"):
             if unpack_path is not None:
                 print("Unpack location specified twice. ONLY provide -u or --unpack.")
-                exit(2)
+                sys.exit(2)
             
             if pack_path is not None:
                 print("Both pack and unpack locations specified. ONLY provide -u/--unpack or -p/--pack.")
-                exit(2)
+                sys.exit(2)
                 
             unpack_path = arg
         elif opt in ("-p", "--pack"):
             if pack_path is not None:
                 print("Pack location specified twice. ONLY provide -p or --pack.")
-                exit(2)
+                sys.exit(2)
             
             if unpack_path is not None:
                 print("Both pack and unpack locations specified. ONLY provide -u/--unpack or -p/--pack.")
-                exit(2)
+                sys.exit(2)
                 
             pack_path = arg
         elif opt in ("-o", "--out"):
             if output_path is not None:
                 print("Output location specified twice. ONLY provide -o or --out.")
-                exit(2)
+                sys.exit(2)
             output_path = arg
             
     if unpack_path is not None:
@@ -88,7 +88,7 @@ def main(argv):
                 filepath = os.path.join(unpack_path, file)
                 unpack_mxe_file(filepath, output_path)
             print("\nDone.")
-            exit()
+            sys.exit()
         else:
             if output_path is None:
                 output_path = os.path.split(unpack_path)[0]
@@ -96,10 +96,10 @@ def main(argv):
                 print(f"Unpacking {unpack_path}...")
                 unpack_mxe_file(unpack_path, output_path)
                 print("Done.")
-                exit()
+                sys.exit()
             else:
                 print(f"{unpack_path} is not an MXE file.")
-                exit(2)
+                sys.exit(2)
     elif pack_path is not None:
         if recursive:
             if output_path is None:
@@ -117,7 +117,7 @@ def main(argv):
                 filepath = os.path.join(pack_path, folder)
                 pack_mxe_file(filepath, output_path)
             print("\nDone.")
-            exit()
+            sys.exit()
         else:
             if output_path is None:
                 output_path = os.path.split(pack_path)[0]
@@ -125,10 +125,10 @@ def main(argv):
                 print(f"Packing {pack_path}...")
                 pack_mxe_file(pack_path, output_path)
                 print("Done.")
-                exit()
+                sys.exit()
             else:
                 print(f"{pack_path} is not a directory.")
-                exit(2)
+                sys.exit(2)
     else:
         print("Did not find a -u/--unpack or -p/--pack argument.")
         print(usage_string)
