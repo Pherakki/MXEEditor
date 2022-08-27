@@ -46,30 +46,31 @@ def pack_parameters(path, mi):
                     
                     # Pack ID and Name
                     try:
-                        pi.ID = int(row[0])
+                        param_id = int(row[0])
+                        pi.ID = param_id
                     except Exception:
                         raise Exception(f"Attempted to pack {param_type} entry {row[0]}; could not convert ID to int.")
                     pi.name = row[1]
                     
                     # Since we currently have global parameter IDs, let's check
                     # that the ID hasn't already been registered
-                    if pi.ID not in registered_global_ids:
-                        registered_global_ids[pi.ID] = param_type
+                    if param_id not in registered_global_ids:
+                        registered_global_ids[param_id] = param_type
                     else:
-                        raise Exception(f"Attempted to pack {param_type} entry {pi.ID}; ID already used in {registered_global_ids[pi.ID]}.")
+                        raise Exception(f"Attempted to pack {param_type} entry {param_id}; ID already used in {registered_global_ids[param_id]}.")
                     
                     # Now pack the parameter data
                     if len(row) - 2 != len(pi.parameters):
-                        raise Exception(f"Attempted to pack {param_type} entry {pi.ID}; number of parameters ({len(row)-2}) does not match definition ({len(pi.parameters)}).")
+                        raise Exception(f"Attempted to pack {param_type} entry {param_id}; number of parameters ({len(row)-2}) does not match definition ({len(pi.parameters)}).")
                     param_def = pi.get_type_def()
                     flat_defs = {k: v[1:] for chunk in param_def.get("struct", []) for k, v in chunk.items()}
                     for key, elem in zip(pi.parameters, row[2:]):
                         try:
                             converted_elem = repack_funcs[flat_defs[key]](elem)
                         except ExceptionMessageGenerator as e:
-                            raise Exception(f"Attempted to convert '{key}' entry of {param_type} entry {pi.ID}; {e.generate_exception_msg()}") from e
+                            raise Exception(f"Attempted to convert '{key}' entry of {param_type} entry {param_id}; {e.generate_exception_msg()}") from e
                         except Exception as e:
-                            raise Exception(f"Attempted to convert '{key}' entry of {param_type} entry {pi.ID}, but an unknown exception occurred: {e}.")
+                            raise Exception(f"Attempted to convert '{key}' entry of {param_type} entry {param_id}, but an unknown exception occurred: {e}.")
                         pi.parameters[key] = converted_elem
                         
                     # aaaaaand pack any subparameters
@@ -102,7 +103,7 @@ def pack_parameters(path, mi):
                                     except Exception:
                                         raise Exception(f"Attempted to read {param_type} subparameters file {subparam_csv}; could not convert parent ID '{parent_id}' to int.")
                                     
-                                    if int_parent_id == pi.ID:
+                                    if int_parent_id == param_id:
                                         spi = ParameterInterface.init_from_type(subparam_type)
                                         
                                         # Now pack the parameter data
@@ -217,6 +218,7 @@ def pack_paths(path, mi):
     # Gather all path IDs referenced by the parameters
     required_paths = []
     for param_set in mi.param_sets:
+        param_id = param_set.ID
         type_def = param_set.get_type_def()
         struct_def = type_def.get("struct", [])
         flat_struct = {}
@@ -230,7 +232,7 @@ def pack_paths(path, mi):
                     raise Exception(f"Tried to find path '{type_name}' in parameter def '{param_set.param_type}', but it was not found in the definition file's path library.")
                 
                 if param_set.parameters[type_name] != -1:
-                    required_paths.append([param_set.parameters[type_name], type_def["paths"][type_name], param_set.ID, param_set.param_type])
+                    required_paths.append([param_set.parameters[type_name], type_def["paths"][type_name], param_id, param_set.param_type])
     
     # Build lookups for checking path consistency
     path_lookup_by_id = {}
@@ -417,6 +419,7 @@ def pack_assets(path, mi):
     # Gather all asset IDs referenced by the parameters
     required_assets = []
     for param_set in mi.param_sets:
+        param_id = param_set.ID
         type_def = param_set.get_type_def()
         struct_def = type_def.get("struct", [])
         flat_struct = {}
@@ -430,7 +433,7 @@ def pack_assets(path, mi):
                     raise Exception(f"Tried to find asset '{type_name}' in parameter def '{param_set.param_type}', but it was not found in the definition file's asset library.")
                 
                 if param_set.parameters[type_name] != -1:
-                    required_assets.append([param_set.parameters[type_name], type_def["assets"][type_name], param_set.ID, param_set.param_type])
+                    required_assets.append([param_set.parameters[type_name], type_def["assets"][type_name], param_id, param_set.param_type])
     
     # Build lookups for checking asset consistency
     asset_lookup_by_id = {}
@@ -474,16 +477,17 @@ def pack_assets(path, mi):
                     raise Exception(f"Attempted to pack asset row '{row_idx}', column {i}: cannot interpret '{row[i]}' as an integer.") from e
                 int_row.append(int_elem)
             
-            ai.ID           = int_row[0]
+            asset_id        = int_row[0]
+            ai.ID = asset_id
             ai.unknown_id_1 = int_row[1]
             ai.unknown_id_2 = int_row[2]
             ai.filepath     = row[3]
             
-            if ai.ID not in asset_types_lookup:
-               raise Exception(f"Attempted to pack asset row '{row_idx}, ID {ai.ID}': CRITICAL INTERNAL ERROR. ASSET WAS NOT GIVEN A TYPE. PLEASE REPORT WITH FULL REPRODUCTION DETAILS.")
+            # if asset_ID not in asset_types_lookup:
+            #    raise Exception(f"Attempted to pack asset row '{row_idx}, ID {asset_ID}': CRITICAL INTERNAL ERROR. ASSET WAS NOT GIVEN A TYPE. PLEASE REPORT WITH FULL REPRODUCTION DETAILS.")
                
             filepath_extension = os.path.splitext(ai.filepath)[1].lstrip(os.path.extsep)  
-            atype = asset_types_lookup[ai.ID]
+            atype = asset_types_lookup.get(asset_id, "???")
 
             if atype not in ai.asset_defs:
                 asset_lookup_heuristic = {
@@ -492,20 +496,20 @@ def pack_assets(path, mi):
                 }
                 print(asset_lookup_heuristic)
                 if filepath_extension not in asset_lookup_heuristic:
-                    raise Exception(f"Attempted to pack asset row '{row_idx}', ID {ai.ID}: unknown file extension '{filepath_extension}'.")
+                    raise Exception(f"Attempted to pack asset row '{row_idx}', ID {asset_id}: unknown file extension '{filepath_extension}'.")
                 ai.asset_type = asset_lookup_heuristic[filepath_extension]
             else:
-                ai.asset_type, asset_extension = ai.asset_defs[asset_types_lookup[ai.ID]]
+                ai.asset_type, asset_extension = ai.asset_defs[asset_types_lookup[asset_id]]
                 if asset_extension != filepath_extension:
                     error_string = ""
-                    param_info = parameter_ids_linked_to_asset[ai.ID]
+                    param_info = parameter_ids_linked_to_asset[asset_id]
                     error_string += ", ".join(f"{p_id} ({p_type})" for p_id, p_type in param_info)
                     error_string += "\n"
-                    raise Exception(f"Attempted to pack asset row '{row_idx}', ID {ai.ID}: found filepath extension '{filepath_extension}', but the asset is referenced by parameters that expect the extension '{asset_extension}'. These parameters are:\n{error_string}")
+                    raise Exception(f"Attempted to pack asset row '{row_idx}', ID {asset_id}: found filepath extension '{filepath_extension}', but the asset is referenced by parameters that expect the extension '{asset_extension}'. These parameters are:\n{error_string}")
                     
             mi.assets.append(ai)
             
-            located_asset_ids.add(ai.ID)
+            located_asset_ids.add(asset_id)
             
     # Check that any assets we needed are not missing
     required_asset_ids -= located_asset_ids
@@ -519,10 +523,10 @@ def pack_assets(path, mi):
         raise Exception(f"Attempted to pack assets, but some IDs referenced in the parameters were not defined in assets.csv. Was unable to find the IDs referenced by the following parameters:\n{error_string}") 
             
     # Assign assets
-    mi.assets = sorted(mi.assets, key=lambda x: x.ID)
+    mi.assets = sorted(mi.assets, key=lambda ai: ai.ID)
     
     # Check that all asset IDs are contiguous
-    asset_ids = [x.ID for x in mi.assets]
+    asset_ids = [ai.ID for ai in mi.assets]
     missing_ids = list(range(asset_ids[0]))
     for id_1, id_2 in zip(asset_ids, asset_ids[1:]):
         if id_2 != id_1 + 1:
