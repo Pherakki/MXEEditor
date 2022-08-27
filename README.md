@@ -3,9 +3,11 @@ A program for unpacking and re-packing MXE files from Valkyria Chronicles to and
 
 ## User Information
 ### Known Issues
-- `game_info_sys_param.mxe` CANNOT currently be unpacked. This is because it contains strings in a place inconsistent with the other MXE files according to current understanding of the file format. It is speculated that this is due to a currently-unknown settings inside the MXE data; if this is not the case, a special exception will be put into pyValkLib so that it operates in a special mode when handling this MXE.
-- Strings are currently expected to be contiguous within the MXE files. If you attempt to unpack an MXE file with strings that have been manually hex-edited, it may fail to unpack.
-
+- The unpacking an MXE and then re-packing it does not guarantee that the files will be byte-for-byte identical. This is for a two reasons:
+    - Strings. The MXEs contain both SHIFT-JIS and UTF-8 strings, but the game appears to only be able to decode strings as SHIFT-JIS. pyValkLib therefore writes strings are marked as "UTF-8" as "SHIFT-JIS" where it can. This will tend to increase the size of MXEs.
+    - File Metadata. The MXE files contain compressed metadata in the form of POF0, ENRS, and CCRS data chunks. Whilst the POF0 can be exactly recompressed, the ENRS and CCRS use a more complicated compression mechanism. The version of the compression used by the game is actually very inefficient; pyValkLib compresses this data more efficiently (but in a logically equivalent way). Compressing the data to byte-for-byte reproduce the "inefficient" version can be done but it requires work. Since pyValkLib compressed the data more efficiently, this tends to decrease the size of MXEs (`game_info_game_param.mxe` shrinks by >50%!).
+    All other data should be byte-for-byte identical, other than string pointers due to the aforementioned string re-encoding.
+    
 ### Usage
 MXEEditor can be used to pack or unpack MXE files for Valkyria Chronicles from the command line. In the commands below, `[MXEEditor]` is to be replaced by:
 - `python MXEEditor.py` if you are running the Python source directly,
@@ -65,9 +67,9 @@ There are two special kinds of data contained in the Parameter Sets that we shou
 
 #### Paths
 
-The path data is contained within the `paths` section of the unpacked MXE. This is a collection of [Directed Graphs](https://en.wikipedia.org/wiki/Directed_graph) that represented many things, such as searchlight paths or AI pathfinding helpers.
+The path data is contained within the `paths` section of the unpacked MXE. This is a collection of [Directed Graphs](https://en.wikipedia.org/wiki/Directed_graph) that represent many things, such as searchlight paths or AI pathfinding helpers.
 
-Inside the `paths` folder you will need another set of folders (probably with Japanese names), and a `paths.csv`. Inside `paths.csv`, you'll find something like this:
+Inside the `paths` folder you will see another set of folders (probably with Japanese names), and a `paths.csv`. Inside `paths.csv`, you'll find something like this:
 
 | ID | Name |
 | -- | ---- |
@@ -76,7 +78,7 @@ Inside the `paths` folder you will need another set of folders (probably with Ja
 | 2 | エリア監視エンティティ|
 | ... | ... |
 
-This is very simple: it gives a list of names for each graph, and attaches an ID to each name. **Again, these IDs must be unique and form a contiguous list.** Each of these names should correspond to one of the `paths` sub-folders. In the Parameter Set we were just looking at for `EnMovePathParam`, it references the path `1`. We can see in `paths.csv` that this corresponds to the graph `効果音エンティティ`. We can therefore find the data for this folder in `paths/効果音エンティティ`. Inside this folder, we'll find some CSV files. Some graphs, such as the one in this example, are actually empty and contain no CSV files. We can go to another graph, such as `エリア監視エンティティ`, to see one that contains CSV files. Each CSV file is given a number, *e.g.* `0.csv`. **These numbers must, again, be unique and sequential.** These represent **disconnected components** of the graph. These is only one disconnected graph (which we will call `subgraphs`) in the entire game; most have a single `subgraph`. Let's open up `0.csv`.
+This is very simple: it gives a list of names for each graph, and attaches an ID to each name. **Again, these IDs must be unique and form a contiguous list.** Each of these names should correspond to one of the `paths` sub-folders. In the Parameter Set we were just looking at for `EnMovePathParam`, it references the path `1`. We can see in `paths.csv` that this corresponds to the graph `移動指定用パス_4`. We can therefore find the data for this folder in `paths/移動指定用パス_4`. Inside this folder, we'll find some CSV files. Some graphs, such as the one in this example, are actually empty and contain no CSV files. We can go to another graph, such as `エリア監視エンティティ`, to see one that contains CSV files. Each CSV file is given a number, *e.g.* `0.csv`. **These numbers must, again, be unique and sequential.** These represent **disconnected components** of the graph. These is only one graph with more than one disconnected component (which we will call a `subgraph`) in the entire game; most graphs have a single `subgraph`. Let's open up `0.csv`.
 
 | ID | Node Parameter | Next Node 1 | Node Node 1 Parameters |
 | -- | -------------- | ----------- | ---------------------- |
@@ -86,7 +88,7 @@ This is very simple: it gives a list of names for each graph, and attaches an ID
 
 Each row corresponds to a `Node` in the Graph. **The IDs must be unique and contiguous**. Each `Node` has an attached `Parameter`; the type is dictated by the type of Graph. Since this Graph is attached to an `SlgEnAreaSurveillanceParam`, the `Node Parameter`s for this Graph must be `SlgEnAreaSurveillancePathNodeParam` - you can check the type in the configuration files for the parameters, given in `pyValkLib/configuration/MXE/parameters`.
 
-After these two columns, you can have an arbitrary number of columns representing nodes that are connected to the Node for that row. For example, we can see in the table above the Node 0 is forwards-connected to Node 1, and Node 1 is forwards-connected to Node 2 (*i.e.* in the graph, an arrow would come from Node 0 and point towards Node 1, and from Node 1 to Node 2). Each Connection must also have an attached `Parameter Set`, and this is always `void` type.
+After these two columns, you can have an arbitrary number of columns representing nodes that are connected to the Node for that row. For example, we can see in the table above that Node 0 is forwards-connected to Node 1, and Node 1 is forwards-connected to Node 2 (*i.e.* in the graph, an arrow would come from Node 0 and point towards Node 1, and from Node 1 to Node 2). Each Connection must also have an attached `Parameter Set`, and this is always `void` type.
 
 #### Assets
 Finally, we come to `assets`. Some `Parameter Sets` reference `assets` by ID. If we look inside `assets.csv`, we can see what `Assets` are referenced in the MXE.
@@ -100,7 +102,7 @@ Finally, we come to `assets`. Some `Parameter Sets` reference `assets` by ID. If
 - ID is the ID of the Asset. Once again: all IDs must be unique and contiguous.
 - Unknown ID 1 is an unknown ID. It is only larger than -1 for some HTX (texture) files. It is speculated to be related to the `MxParameterTextureMerge` Parameter Set.
 - Unknown ID 2 is an unknown ID. It is only larger than -1 for some files that are not HTX (texture) files. It is speculated to be related to the `MxParameterMergeFile` Parameter Set.
-- `Asset Path` is the on-disk location of the asset. Node that each `asset slot` in a `Parameter Set` can only be linked to a specific Asset Type; if this is the wrong type then MXEEditor will throw an error on repacking. The asset type should be clear from the column name in the Parameter Set csv file; it can also be checked in the Parameter definitions files at `pyValkLib/configuration/MXE/parameters`. Some parameters are listed as "unknown asset"s in the Parameter Set CSVs - these are never attached to any Assets in the vanilla files and therefore have unknown types. MXEEditor will therefore allow any asset to be assigned to these slots - just bear in mind that if you do this you might crash the game!
+- `Asset Path` is the on-disk location of the asset. Note that each `asset slot` in a `Parameter Set` can only be linked to a specific Asset Type; if this is the wrong type then MXEEditor will throw an error on repacking. The asset type should be clear from the column name in the Parameter Set csv file; it can also be checked in the Parameter definitions files at `pyValkLib/configuration/MXE/parameters`. Some parameters are listed as "unknown asset"s in the Parameter Set CSVs - these are never attached to any Assets in the vanilla files and therefore have unknown types. MXEEditor will therefore allow any asset to be assigned to these slots - just bear in mind that if you do this you might crash the game!
 
 ## Developer Information
 ### Requirements
