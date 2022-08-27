@@ -7,6 +7,9 @@ from pyValkLib import MXE
 from CSVExtract import interface_to_csvs
 from CSVPack import csvs_to_interface
 
+from Workarounds import hack_fix_game_info_sys_param
+from Workarounds import hack_unfix_game_info_sys_param
+
 usage_string = "Usage:\n" + \
                "  -h/--help  : Prints the help string.\n" + \
                "  -r         : Packs/unpacks all MXEs in a supplied folder.\n" + \
@@ -18,14 +21,18 @@ def is_mxe_file(filepath):
     return os.path.isfile(filepath) and os.path.splitext(filepath)[-1] == os.path.extsep + "mxe"
 
 def unpack_mxe_file(in_path, out_dir):
+    hack_fix_game_info_sys_param(in_path)
     mxec = MXE.init_from_file(in_path)
     interface_to_csvs(out_dir, mxec, os.path.splitext(os.path.split(in_path)[1])[0])
-
+    hack_unfix_game_info_sys_param(in_path)
+    
 def pack_mxe_file(in_path, out_path):
+    hack_fix_game_info_sys_param(in_path)
     filename = os.path.split(in_path)[1]
     mxec = csvs_to_interface(in_path)
     mxe = MXE.init_from_mxecinterface(mxec)
     mxe.write(os.path.join(out_path, filename + os.path.extsep + "mxe"))
+    hack_unfix_game_info_sys_param(in_path)
 
 def main(argv):
     try:
