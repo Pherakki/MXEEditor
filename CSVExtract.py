@@ -4,6 +4,18 @@ import os
 def interface_to_csvs(outpath, mi, filename):
     os.makedirs(os.path.join(outpath, filename), exist_ok=True)
     
+    # Just in case we want to map at some point...
+    param_global_to_local_id = {}
+    
+    def global_map_params(param):
+        return param.ID
+    
+    def local_map_params(param):
+        return param_global_to_local_id[param.ID]
+    
+    # Could change this variable depending on a setting
+    param_id_map = global_map_params    
+    
     # Write out parameters
     if len(mi.param_sets):
         params_by_type = {}
@@ -26,16 +38,18 @@ def interface_to_csvs(outpath, mi, filename):
                 header = ["ID", "Name", *pdata[0].parameters.keys()]
                 csvwriter.writerow(header)
                 
-                for pdata_elems in pdata:
+                for local_id, pdata_elems in enumerate(pdata):
+                    global_param_id = pdata_elems.ID
+                    param_global_to_local_id[global_param_id] = local_id
+                    
                     param_vals = list(pdata_elems.parameters.values())
                     param_vals = [" ".join([str(se) for se in e]) if (hasattr(e, "__iter__") and not type(e) == str) else str(e) for e in param_vals]
-                    row = [pdata_elems.ID, pdata_elems.name, *param_vals]
-
+                    row = [global_param_id, pdata_elems.name, *param_vals]
                     csvwriter.writerow(row)
                     
                     for subparam_set_name, subparam_set in pdata_elems.subparameters.items():
                         for subparam in subparam_set:
-                            subparam_data[subparam_set_name].append([pdata_elems.ID, subparam])
+                            subparam_data[subparam_set_name].append([global_param_id, subparam])
             
             # Dump the subparameters
             if len(subparam_data):
