@@ -2,15 +2,15 @@
     "struct":
     [
         {
-            "unknown_0x00": ">utf8_string",
-            "unknown_0x04": ">utf8_string",
-            "unknown_0x08": ">int32",
-            "unknown_0x0C": ">int32",
-            "unknown_0x10": ">int32",
-            "unknown_0x14": ">int32",
-            "unknown_0x18": ">int32",
-            "unknown_0x1C": ">int32",
-            "unknown_0x20": ">float32"
+            "Description"     : ">utf8_string",
+            "Name"            : ">utf8_string",
+            "unknown_0x08"    : ">int32",
+            "Blast Protection": ">int32",
+            "Level"           : ">int32",
+            "Unlock Chapter"  : ">int32",
+            "Unlock Episode"  : ">int32",
+            "Price"           : ">int32",
+            "Armor Value"     : ">float32"
         }
     ]
 }

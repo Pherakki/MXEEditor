@@ -3,7 +3,9 @@
     [
         {
             "unknown_0x00"  : ">int32",
-            "unknown_0x04"  : "<int32",
+            "unknown_0x04"  : ">int8",
+            "unknown_0x05"  : ">pad8",
+            "unknown_0x06"  : ">pad16",
             "unknown_0x08"  : ">int32",
             "unknown_0x0C"  : ">int32",
             "abd_asset"     : ">asset",

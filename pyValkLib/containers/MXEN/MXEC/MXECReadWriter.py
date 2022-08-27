@@ -195,81 +195,128 @@ class MXECReadWriter(ValkSerializable32BH):
         rw.align(rw.local_tell(), 0x10)
         
     def read_strings(self, rw):
-        # Instead of reading/writing blobs, might make sense to collect a list
-        # of string pointers during the read/write and then make those read/writes.
-        # You would of course have to keep separate lists for UTF-8 and SHIFT-JIS strings.
-        curpos = rw.local_tell()
-        start_pos = rw.local_tell()
+        # # Instead of reading/writing blobs, might make sense to collect a list
+        # # of string pointers during the read/write and then make those read/writes.
+        # # You would of course have to keep separate lists for UTF-8 and SHIFT-JIS strings.
+        # curpos = rw.local_tell()
+        # start_pos = rw.local_tell()
 
-        # Get the start of the unknown data
+        # # Get the start of the unknown data
+        # entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
+        # end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
+
+
+        # # Get the start of the UTF-8 strings
+        # utf8_string_offsets = [elem.data.get_string_ptrs() for elem in self.parameter_sets_table.entries]
+        # utf8_string_offsets = [subitem for item in utf8_string_offsets for subitem in item]
+        
+        # start_of_utf8_strings = min(utf8_string_offsets) if len(utf8_string_offsets) else end_point
+
+        # main_string_blob      = memoryview(rw.bytestream.read(start_of_utf8_strings - start_pos))
+
+        # n_entries = 0
+        # first_string = True
+        # while curpos < start_of_utf8_strings:
+        #     strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
+        #     self.sjis_strings.data.append(strn)
+        #     self.sjis_strings.ptr_to_idx[curpos] = n_entries
+        #     self.sjis_strings.idx_to_ptr[n_entries] = curpos
+        #     n_entries += 1
+        #     curpos += size
+        #     first_string = False
+
+        # remaining_stuff = main_string_blob[curpos-start_pos:].tobytes()
+        # if remaining_stuff != (b'\x00'*len(remaining_stuff)):
+        #     print(remaining_stuff)
+        #     raise Exception(f"End of SHIFT-JIS String Bank not reached!\n{remaining_stuff}")
+        # rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
+        # curpos = rw.local_tell()
+
+        # rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_utf8_strings)
+        # utf8_string_blob = memoryview(rw.bytestream.read(end_point - start_of_utf8_strings))
+        # n_entries = 0
+        # first_string = True
+        # while curpos < end_point:
+        #     strn, size = parse_null_terminated_string_utf8(utf8_string_blob[curpos-start_of_utf8_strings:])
+        #     self.utf8_strings.data.append(strn)
+        #     self.utf8_strings.ptr_to_idx[curpos] = n_entries
+        #     self.utf8_strings.idx_to_ptr[n_entries] = curpos
+        #     n_entries += 1
+        #     curpos += size
+        #     first_string = False
+
+        # remaining_stuff = utf8_string_blob[curpos-start_of_utf8_strings:].tobytes()
+        # if remaining_stuff != (b'\x00'*len(remaining_stuff)):
+        #     print(remaining_stuff)
+        #     raise Exception("End of UTF-8 String Bank not reached!")
+        # rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
+        # rw.assert_local_file_pointer_now_at("End of UTF-8 String Bank", end_point)
+        
+        
+        ######
+        
+        # Get all SJIS string offsets
+        all_sjis_string_ptrs = set()
+        for elem in self.parameter_sets_table.entries:
+            all_sjis_string_ptrs.add(elem.name_offset)
+            all_sjis_string_ptrs.update(set(elem.data.get_shiftjis_string_ptrs()))
+            for subparams in elem.data.subparams.values():
+                for subparam in subparams:
+                    all_sjis_string_ptrs.update(set(subparam.get_shiftjis_string_ptrs()))
+        for entity in self.entity_table.entries:
+            all_sjis_string_ptrs.add(entity.name_offset)
+            for subentry in entity.data.subentries:
+                all_sjis_string_ptrs.add(subentry.name_offset)
+        for path in self.pathing_table.entries:
+            all_sjis_string_ptrs.add(path.name_offset)
+        for asset_entry in self.asset_table.entries:
+            all_sjis_string_ptrs.add(asset_entry.folder_name_ptr)
+            all_sjis_string_ptrs.add(asset_entry.file_name_ptr)
+        all_sjis_string_ptrs = sorted(all_sjis_string_ptrs)
+        
+        # UTF8 only lives in the parameter sets
+        all_utf8_string_ptrs = set()
+        for elem in self.parameter_sets_table.entries:
+            all_utf8_string_ptrs.update(set(elem.data.get_string_ptrs()))
+            for subparam in elem.data.subparams.values():
+                for subparam in subparams:
+                    all_utf8_string_ptrs.update(set(subparam.get_string_ptrs()))
+        all_utf8_string_ptrs = sorted(all_utf8_string_ptrs)
+        
+        start_pos = rw.local_tell()
         entity_data_offsets = [elem.unknown_data_ptr for elem in self.entity_table.entries.data if elem.unknown_data_ptr > 0]
         end_point = min(entity_data_offsets) if len(entity_data_offsets) else self.header.header_length + self.header.data_length
-
-
-        # Get the start of the UTF-8 strings
-        utf8_string_offsets = [elem.data.get_string_ptrs() for elem in self.parameter_sets_table.entries]
-        utf8_string_offsets = [subitem for item in utf8_string_offsets for subitem in item]
+        string_blob = memoryview(rw.bytestream.read(end_point - start_pos))
         
-        start_of_utf8_strings = min(utf8_string_offsets) if len(utf8_string_offsets) else end_point
-
-        main_string_blob      = memoryview(rw.bytestream.read(start_of_utf8_strings - start_pos))
-
-        n_entries = 0
-        first_string = True
-        while curpos < start_of_utf8_strings:
-            strn, size = parse_null_terminated_string(main_string_blob[curpos-start_pos:])
-            if strn == "" and not first_string:
-                curpos += 1  # Looks like we read a null-terminator, must be at alignment
-                break
-
+        # In most files, the strings are arranged into a SJIS block and a
+        # UTF8 block
+        # However, there are many hexedited MXEs out there that violate this,
+        # so we should try to account for that and ignore the real structure
+        n_sjis = 0
+        for sjis_string_ptr in all_sjis_string_ptrs:
+            strn, size = parse_null_terminated_string(string_blob[sjis_string_ptr-start_pos:])
             self.sjis_strings.data.append(strn)
-            self.sjis_strings.ptr_to_idx[curpos] = n_entries
-            self.sjis_strings.idx_to_ptr[n_entries] = curpos
-            n_entries += 1
-            curpos += size
-            first_string = False
-
-        remaining_stuff = main_string_blob[curpos-start_pos:].tobytes()
-        if remaining_stuff != (b'\x00'*len(remaining_stuff)):
-            print(remaining_stuff)
-            raise Exception(f"End of SHIFT-JIS String Bank not reached!\n{remaining_stuff}")
-        rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
-        curpos = rw.local_tell()
-
-        rw.assert_local_file_pointer_now_at("Start of UTF-8 String Bank", start_of_utf8_strings)
-        utf8_string_blob = memoryview(rw.bytestream.read(end_point - start_of_utf8_strings))
-        n_entries = 0
-        first_string = True
-        while curpos < end_point:
-            strn, size = parse_null_terminated_string_utf8(utf8_string_blob[curpos-start_of_utf8_strings:])
-            if strn == "" and not first_string:
-                curpos += 1
-                break
-
+            self.sjis_strings.ptr_to_idx[sjis_string_ptr] = n_sjis
+            self.sjis_strings.idx_to_ptr[n_sjis] = sjis_string_ptr
+            n_sjis += 1
+            
+        n_utf8 = 0
+        for utf8_string_ptr in all_utf8_string_ptrs:
+            strn, size = parse_null_terminated_string_utf8(string_blob[utf8_string_ptr-start_pos:])
             self.utf8_strings.data.append(strn)
-            self.utf8_strings.ptr_to_idx[curpos] = n_entries
-            self.utf8_strings.idx_to_ptr[n_entries] = curpos
-            n_entries += 1
-            curpos += size
-            first_string = False
-
-        remaining_stuff = utf8_string_blob[curpos-start_of_utf8_strings:].tobytes()
-        if remaining_stuff != (b'\x00'*len(remaining_stuff)):
-            print(remaining_stuff)
-            raise Exception("End of UTF-8 String Bank not reached!")
-        rw.align(rw.local_tell(), 0x10) # Will already be aligned since we've read an aligned blob
-        rw.assert_local_file_pointer_now_at("End of UTF-8 String Bank", end_point)
+            self.utf8_strings.ptr_to_idx[utf8_string_ptr] = n_utf8
+            self.utf8_strings.idx_to_ptr[n_utf8] = utf8_string_ptr
+            n_utf8 += 1
         
     def write_strings(self, rw):
         for string in self.sjis_strings:
             rw.rw_cstr(string, encoding="cp932")
-            #rw.bytestream.write(string.encode("cp932"))
-            #rw.bytestream.write(b"\x00")
         rw.align(rw.local_tell(), 0x10)
         for string in self.utf8_strings:
-            rw.rw_cstr(string, encoding="utf8")
-            #rw.bytestream.write(string.encode("utf8"))
-            #rw.bytestream.write(b"\x00")
+            try:
+                rw.rw_cstr(string, encoding="cp932") # The game seemingly can only use SHIFT-JIS, despite containing UTF8-encoded strings...
+            except Exception:
+                rw.rw_cstr(string, encoding="utf8") # The game seemingly can only use SHIFT-JIS, despite containing UTF8-encoded strings...
         rw.align(rw.local_tell(), 0x10)
         
     def read_unknowns(self, rw):
@@ -302,7 +349,7 @@ def parse_null_terminated_string(data):
     while data[size] != 0:
         size += 1
     try:
-        string = data[0:size].tobytes().decode('cp932') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
+        string = data[0:size].tobytes().decode('cp932')
     except Exception as e:
         print(data[0:size].tobytes())
         raise e
@@ -313,8 +360,11 @@ def parse_null_terminated_string_utf8(data):
     while data[size] != 0:
         size += 1
     try:
-        string = data[0:size].tobytes().decode('utf8') # Asset table strings are UTF8, all others are SHIFT-JIS... delay decode for the particular table
-    except Exception as e:
-        print(data[0:size].tobytes())
-        raise e
+        string = data[0:size].tobytes().decode('cp932')
+    except Exception:
+        try:
+            string = data[0:size].tobytes().decode('utf8')
+        except Exception as e:
+            print("Cannot interpret string as SHIFT-JIS or UTF8:", data[0:size].tobytes())
+            raise e
     return string, size+1

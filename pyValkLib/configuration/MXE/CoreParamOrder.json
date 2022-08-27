@@ -52,15 +52,15 @@
         "MxParameterStaticLight",
         "MxParameterTextureMerge",
         "MxParameterMergeFile",
-        "MxParameterPvs",
+        "MxParameterPvs"
+    ],
+    "after_nodes":
+    [
         "+StaticSphere",
         "+StaticPyramid",
         "+StaticBox",
         "VlMxDrawModelLodParam",
         "VlMxFogParam",
         "VlMxShaderParamSetId"
-    ],
-    "after_nodes":
-    [
     ]
 }

@@ -537,7 +537,8 @@ class ENRSBuilder(OffsetTracker):
         self.current_array_member = []
         
     def log_offset(self, size):
-        self.current_array_member.append((self.virtual_offset, size))
+        if size > 1:
+            self.current_array_member.append((self.virtual_offset, size))
     
     def rw_pad8 (self, value, endianness=None): return super()._rw_single('B', 1, value, endianness)
     def rw_pad16(self, value, endianness=None): return super()._rw_single('H', 2, value, endianness)

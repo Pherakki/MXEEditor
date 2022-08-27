@@ -3,7 +3,10 @@
     [
         {
             "unknown_0x00": ">uint32",
-            "unknown_0x04": "<uint32",
+            "unknown_0x04": ">int8",
+            "unknown_0x05": ">int8",
+            "unknown_0x06": ">int8",
+            "unknown_0x07": ">int8",
             "unknown_0x08": ">float32",
             "unknown_0x0C": ">float32",
             "unknown_0x10": ">float32"

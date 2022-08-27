@@ -2,14 +2,14 @@
     "struct":
     [
         {
-            "unknown_0x00": ">int32",
-            "unknown_0x04": ">utf8_string",
-            "unknown_0x08": ">utf8_string",
+            "Unit ID": ">int32",
+            "First Name": ">utf8_string",
+            "Last Name": ">utf8_string",
             "unknown_0x0C": ">utf8_string",
             "unknown_0x10": ">utf8_string",
             "unknown_0x14": ">utf8_string",
             "unknown_0x18": ">utf8_string",
-            "unknown_0x1C": ">int32",
+            "Sex"         : ">int32",
             "unknown_0x20": ">int32",
             "unknown_0x24": ">int32",
             "unknown_0x28": ">int32",
@@ -18,7 +18,7 @@
             "unknown_0x34": ">int32",
             "unknown_0x38": ">int32",
             "unknown_0x3C": ">int32",
-            "unknown_0x40": ">float32",
+            "unknown_0x40": ">int32",
             "unknown_0x44": ">int32",
             "unknown_0x48": ">int32",
             "unknown_0x4C": ">int32"

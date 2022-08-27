@@ -725,7 +725,10 @@ class MXECInterface:
             ot.seek(offset + len(str_bytes) + 1)
         ot.align(ot.tell(), 0x10)
         for i, string_val in enumerate(sorted(utf8_strings)):
-            str_bytes = string_val.encode("utf8")
+            try:
+                str_bytes = string_val.encode("cp932")
+            except Exception:
+                str_bytes = string_val.encode("utf8")
             offset = ot.tell()
             utf8_string_lookup[string_val] = offset
             ot.seek(offset + len(str_bytes) + 1)

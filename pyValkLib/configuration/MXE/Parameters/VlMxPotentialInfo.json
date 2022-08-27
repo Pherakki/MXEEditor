@@ -2,18 +2,27 @@
     "struct":
     [
         {
-            "unknown_0x00": ">int32",
-            "unknown_0x04": ">utf8_string",
-            "unknown_0x08": ">utf8_string",
-            "unknown_0x0C": "<uint32",
-            "unknown_0x10": "<uint32",
-            "unknown_0x14": "<uint32",
-            "unknown_0x18": ">int32",
-            "unknown_0x1C": ">int32",
-            "unknown_0x20": ">int32",
-            "unknown_0x24": ">int32",
-            "unknown_0x28": ">float32",
-            "unknown_0x2C": ">float32"
+            "Potential ID"      : ">int32",
+            "Name"              : ">utf8_string",
+            "Description"       : ">utf8_string",
+            "Accuracy Modifer"  : ">int8",
+            "Evasion Modifier"  : ">int8",
+            "Vs Person Modifer" : ">int8",
+            "Vs Armor Modifier" : ">int8",
+            "Defense Modifier"  : ">int8",
+            "Ammo Modifer"      : ">int8",
+            "HP Modifier"       : ">int8",
+            "Detection Modifier": ">int8",
+            "unknown_0x14"      : ">int8",
+            "unknown_0x15"      : ">int8",
+            "unknown_0x16"      : ">int8",
+            "unknown_0x17"      : ">int8",
+            "unknown_0x18"      : ">int32",
+            "unknown_0x1C"      : ">int32",
+            "unknown_0x20"      : ">int32",
+            "unknown_0x24"      : ">int32",
+            "unknown_0x28"      : ">float32",
+            "Activation Rate"   : ">float32"
         }
     ]
 }

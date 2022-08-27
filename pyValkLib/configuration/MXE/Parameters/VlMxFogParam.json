@@ -7,7 +7,7 @@
             "unknown_0x08": ">float32",
             "unknown_0x0C": ">float32",
             "unknown_0x10": ">float32",
-            "color": "<color32"
+            "color": ">color32"
         }
     ]
 }
