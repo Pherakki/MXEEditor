@@ -495,10 +495,9 @@ def pack_assets(path, mi):
 
             if atype not in ai.asset_defs:
                 asset_lookup_heuristic = {
-                    ext: num for ext, num in ai.asset_defs.values() 
+                    ext: num for num, ext in ai.asset_defs.values() 
                     if num != 21 # 21 is texmerge, probably want the "main" htex type
                 }
-                print(asset_lookup_heuristic)
                 if filepath_extension not in asset_lookup_heuristic:
                     raise Exception(f"Attempted to pack asset row '{row_idx}', ID {asset_id}: unknown file extension '{filepath_extension}'.")
                 ai.asset_type = asset_lookup_heuristic[filepath_extension]
