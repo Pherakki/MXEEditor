@@ -139,7 +139,8 @@ def interface_to_csvs(outpath, mi, filename):
             header = ["ID", "Unknown ID 1", "Unknown ID 2", "Asset Path"]
             csvwriter.writerow(header)
             
-            for i, asset in enumerate(mi.assets):
-                row = [asset.ID, asset.unknown_id_1, asset.unknown_id_2, asset.filepath]
+            for asset in mi.assets:
+                asset_id = asset.ID
+                row = [asset_id, asset.unknown_id_1, asset.unknown_id_2, asset.filepath]
                 csvwriter.writerow(row)
     
