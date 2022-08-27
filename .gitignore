@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Nuitka
+MXEEditor.exe
+MXEEditor.build/*
+MXEEditor.dist/*
+MXEEditor.onefile-build/*
