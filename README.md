@@ -123,3 +123,7 @@ Once you have Nuitka installed, the following steps are followed to create an ex
 - Come up with some way that allows the user to not need to have a contiguous series of IDs for parameter sets, paths, and assets; the MXEEditor should be able to map these to a contiguous range if necessary or feed them directly to pyValkLib if not.
 - Add an "auto" option to Path Edges which auto-generates a new `void` parameter for them.
 - Maybe add a GUI for editing the MXE data that is more difficult to make structural mistakes with than CSV files.
+
+### Features for v1.0
+- All Parameter Set values given names
+- Implement any of the "future plans" items that are practical and useful
