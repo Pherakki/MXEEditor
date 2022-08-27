@@ -4,7 +4,7 @@ A program for unpacking and re-packing MXE files from Valkyria Chronicles to and
 ## User Information
 ### Known Issues
 - You must currently run MXEEditor from the folder it is located in. If the current working directory is different, it will fail to locate its configuration files.
-- Unpacking an MXE and then re-packing it does not guarantee that the files will be byte-for-byte identical. This is for a two reasons:
+- Unpacking an MXE and then re-packing it does not guarantee that the files will be byte-for-byte identical. This is for two reasons:
     - Strings. The MXEs contain both SHIFT-JIS and UTF-8 strings, but the game appears to only be able to decode strings as SHIFT-JIS. pyValkLib therefore writes strings are marked as "UTF-8" as "SHIFT-JIS" where it can. This will tend to increase the size of MXEs.
     - File Metadata. The MXE files contain compressed metadata in the form of POF0, ENRS, and CCRS data chunks. Whilst the POF0 can be exactly recompressed, the ENRS and CCRS use a more complicated compression mechanism. The version of the compression used by the game is actually very inefficient; pyValkLib compresses this data more efficiently (but in a logically equivalent way). Compressing the data to byte-for-byte reproduce the "inefficient" version can be done but it requires work. Since pyValkLib compressed the data more efficiently, this tends to decrease the size of MXEs (`game_info_game_param.mxe` shrinks by >50%!).
     All other data should be byte-for-byte identical, other than string pointers due to the aforementioned string re-encoding.
