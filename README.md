@@ -127,3 +127,4 @@ Once you have Nuitka installed, the following steps are followed to create an ex
 ### Features for v1.0
 - All Parameter Set values given names
 - Implement any of the "future plans" items that are practical and useful
+- Support for Valkyria Chronicles 4
