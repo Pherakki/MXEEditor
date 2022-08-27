@@ -8,7 +8,11 @@ from pyValkLib.containers.MXEN.MXEC.MXECInterface import GraphInterface, Subgrap
 from pyValkLib.containers.MXEN.MXEC.MXECInterface import NodeInterface, EdgeInterface
 from pyValkLib.containers.MXEN.MXEC.MXECInterface import AssetInterface
 
-from CSVPackFuncs import repack_funcs, ExceptionMessageGenerator
+
+if __name__ == "CSVPack":
+    from CSVPackFuncs import repack_funcs, ExceptionMessageGenerator
+else:
+    from .CSVPackFuncs import repack_funcs, ExceptionMessageGenerator
 
 def csvs_to_interface(path):
     mi = MXECInterface()
