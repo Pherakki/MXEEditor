@@ -250,7 +250,7 @@ def pack_paths(path, mi):
     for id_, data in path_lookup_by_id.items():
         path_types = set([d[0] for d in data])
         if len(path_types) != 1:
-            raise Exception("Attempted to pack path {id_}: encountered a critical internal pyValkLib error - more than one type was found for this path: {', '.join([str(e) for e in sorted(path_types)])}.")
+            raise Exception(f"Attempted to pack path {id_}: more than one type was found for this path: {', '.join([str(e) for e in sorted(path_types)])}.")
         path_types_lookup[id_] = list(path_types)[0]
         parameter_ids_linked_to_paths[id_] = [d[1:3] for d in data]
     del path_lookup_by_id
@@ -451,7 +451,11 @@ def pack_assets(path, mi):
     for id_, data in asset_lookup_by_id.items():
         asset_types = set([d[0] for d in data])
         if len(asset_types) != 1:
-            raise Exception("Attempted to pack asset {id_}: encountered a critical internal pyValkLib error - more than one type was found for this asset: {', '.join([str(e) for e in sorted(asset_types)])}.")
+            error_msg = []
+            for a_ext, p_id, p_type in data:
+                error_msg.append(f"{a_ext}: {p_id} ({p_type})")
+            error_msg = "\n".join(error_msg)
+            raise Exception(f"Attempted to pack asset {id_}: more than one type was found for this asset: {', '.join([str(e) for e in sorted(asset_types)])}. The Parameter Sets linked to this ID are:\n{error_msg}.")
         asset_types_lookup[id_] = list(asset_types)[0]
         parameter_ids_linked_to_asset[id_] = [d[1:3] for d in data]
     del asset_lookup_by_id
